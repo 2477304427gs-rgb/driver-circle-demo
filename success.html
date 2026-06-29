@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>拼车成功</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="app-header">
+      <div class="back-btn" onclick="goBack()">←</div>
+      <div class="title">拼车成功</div>
+      <div class="header-action"></div>
+    </div>
+
+    <div class="success-page">
+      <div class="success-icon">🎉</div>
+      <div class="success-title">拼车成功！</div>
+      <div class="success-desc">请及时联系对方确认汇合地点</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">拼车信息</div>
+      <div class="route-line" style="font-size:15px;">
+        <span class="dot start"></span>
+        <span class="addr">望京SOHO</span>
+        <span class="arrow">→</span>
+        <span class="dot end"></span>
+        <span class="addr">天通苑</span>
+      </div>
+      <div class="text-sm text-secondary">出发时间：00:30</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">同行人信息</div>
+      <div class="profile-small">
+        <div class="avatar avatar-lg">李</div>
+        <div class="info">
+          <div class="name-row">
+            <span style="font-size:17px;font-weight:600;">李师傅</span>
+            <span class="text-sm text-secondary">★4.7</span>
+          </div>
+          <div class="sub">联系方式：138****5678（虚拟号码）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <button class="btn btn-primary btn-block" onclick="showToast('正在拨出虚拟号码')">联系同行司机</button>
+      <a href="circle.html" class="btn btn-outline btn-block">查看我的拼车记录</a>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

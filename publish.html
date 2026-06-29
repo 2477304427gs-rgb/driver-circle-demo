@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>发布拼车需求</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="app-header">
+      <div class="back-btn" onclick="goBack()">←</div>
+      <div class="title">发布拼车需求</div>
+      <div class="header-action"></div>
+    </div>
+
+    <div class="card">
+      <div class="form-group">
+        <label class="form-label">起点</label>
+        <input type="text" class="form-input" id="start-addr" value="望京SOHO（当前GPS位置）">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">目的地</label>
+        <input type="text" class="form-input" id="end-addr" placeholder="请输入或选择常用地址">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">预计出发时间</label>
+        <input type="datetime-local" class="form-input" id="depart-time">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">车辆情况</label>
+        <div class="option-group">
+          <div class="option active" data-show="#seats-control" data-hide="">
+            我有车，可带
+            <span id="seats-count">2</span>人
+          </div>
+          <div class="option" data-hide="#seats-control">我没车，求带</div>
+        </div>
+        <div id="seats-control" style="margin-top:12px;display:flex;align-items:center;gap:12px;">
+          <span class="text-sm text-secondary">可带人数：</span>
+          <button type="button" class="btn btn-gray btn-sm" onclick="changeSeats(-1)">-</button>
+          <span id="seats-display" style="font-size:16px;font-weight:600;width:24px;text-align:center;">2</span>
+          <button type="button" class="btn btn-gray btn-sm" onclick="changeSeats(1)">+</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">备注（选填）</label>
+        <textarea class="form-input form-textarea" placeholder="如：有车可带2人，后排宽敞"></textarea>
+      </div>
+
+      <div class="text-sm text-secondary" style="line-height:1.5;">
+        ℹ️ 发布后需求将展示给附近司机，有效期30分钟
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <button class="btn btn-primary btn-block" onclick="publishNeed()">确认发布</button>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    let seats = 2;
+
+    function changeSeats(delta) {
+      seats = Math.max(1, Math.min(4, seats + delta));
+      document.getElementById('seats-display').textContent = seats;
+      document.getElementById('seats-count').textContent = seats;
+    }
+
+    function setDefaultTime() {
+      const now = new Date();
+      now.setMinutes(now.getMinutes() + 30);
+      const iso = now.toISOString().slice(0, 16);
+      document.getElementById('depart-time').value = iso;
+    }
+
+    function publishNeed() {
+      const end = document.getElementById('end-addr').value.trim();
+      if (!end) {
+        showToast('请填写目的地');
+        return;
+      }
+      showToast('发布成功，正在为你匹配同路司机');
+      setTimeout(() => {
+        window.location.href = 'circle.html?published=1';
+      }, 1500);
+    }
+
+    document.addEventListener('DOMContentLoaded', setDefaultTime);
+  </script>
+</body>
+</html>

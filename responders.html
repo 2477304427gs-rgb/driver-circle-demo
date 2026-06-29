@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>响应者列表</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="app-header">
+      <div class="back-btn" onclick="goBack()">←</div>
+      <div class="title">响应者</div>
+      <div class="header-action"></div>
+    </div>
+
+    <div id="responder-list" class="scroll-list"></div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    const responders = [
+      { name: '李师傅', initial: '李', rating: 4.7, hasCar: false, time: '5分钟前' },
+      { name: '王师傅', initial: '王', rating: 4.8, hasCar: true, time: '8分钟前' },
+      { name: '赵师傅', initial: '赵', rating: 4.6, hasCar: false, time: '12分钟前' },
+      { name: '陈师傅', initial: '陈', rating: 4.9, hasCar: true, time: '15分钟前' },
+      { name: '刘师傅', initial: '刘', rating: 4.5, hasCar: false, time: '18分钟前' }
+    ];
+
+    function renderResponders() {
+      const container = document.getElementById('responder-list');
+      container.innerHTML = responders.map((r, index) => `
+        <div class="card responder-card" data-index="${index}">
+          <div class="list-item">
+            <div class="avatar">${r.initial}</div>
+            <div class="content">
+              <div class="name-row" style="display:flex;align-items:center;gap:8px;">
+                <span class="name">${r.name}</span>
+                <span class="text-sm text-secondary">★${r.rating}</span>
+              </div>
+              <div class="meta">
+                <span class="tag tag-${r.hasCar ? 'success' : 'warning'}">${r.hasCar ? '有车' : '无车'}</span>
+                <span style="margin-left:8px;">${r.time}响应</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:12px;">
+            <button class="btn btn-danger" style="flex:1;" onclick="rejectResponder(this)">拒绝</button>
+            <button class="btn btn-success" style="flex:1;" onclick="confirmResponder(this)">确认拼车</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function confirmResponder(btn) {
+      openModal('#modal-match');
+    }
+
+    function rejectResponder(btn) {
+      const card = btn.closest('.responder-card');
+      card.style.opacity = '0.5';
+      setTimeout(() => card.remove(), 300);
+      showToast('已拒绝该响应者');
+    }
+
+    function goSuccess() {
+      closeModal('#modal-match');
+      window.location.href = 'success.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', renderResponders);
+  </script>
+
+  <div class="modal-overlay" id="modal-match" data-close-on-click="false">
+    <div class="modal">
+      <div class="modal-icon">🎉</div>
+      <div class="modal-title">确认拼车？</div>
+      <div class="modal-desc">
+        确认后双方将收到通知并展示虚拟号码，其他响应者将收到“已被匹配”通知。
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-gray" onclick="closeModal('#modal-match')">取消</button>
+        <button class="btn btn-success" onclick="goSuccess()">确认</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

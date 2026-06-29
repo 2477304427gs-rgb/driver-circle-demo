@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>互助圈</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="app-header">
+      <div class="back-btn" onclick="goBack()">←</div>
+      <div class="title">互助圈</div>
+      <div class="header-action">
+        💬
+        <span class="badge"></span>
+      </div>
+    </div>
+
+    <div class="tab-bar">
+      <div class="tab active" data-target="#panel-carpool">附近拼车</div>
+      <div class="tab" data-target="#panel-shuttle">找接驳车</div>
+    </div>
+
+    <!-- 附近拼车 Tab -->
+    <div id="panel-carpool" class="tab-panel active scroll-list">
+      <div class="card" style="background:linear-gradient(135deg,#e6f4ff,#f0f9ff);">
+        <div class="card-title">顺路单没接到？</div>
+        <div class="card-desc">试试互助拼车，结伴返程更安全、更温暖。</div>
+        <a href="publish.html" class="btn btn-primary" style="margin-top:12px;">发布拼车需求</a>
+      </div>
+
+      <div class="card" style="display:flex;align-items:center;gap:12px;">
+        <div style="font-size:24px;">💡</div>
+        <div style="flex:1;">
+          <div style="font-size:14px;font-weight:500;">你的顺路单暂未匹配到订单</div>
+          <div style="font-size:12px;color:var(--text-secondary);">试试互助拼车吧 →</div>
+        </div>
+      </div>
+
+      <div id="carpool-list"></div>
+    </div>
+
+    <!-- 找接驳车 Tab -->
+    <div id="panel-shuttle" class="tab-panel scroll-list">
+      <div class="card" style="padding:12px 16px;">
+        <div style="display:flex;gap:10px;">
+          <span class="tag tag-primary">按线路筛选</span>
+          <span class="tag tag-primary">按时间筛选</span>
+          <span class="tag tag-primary">按价格排序</span>
+        </div>
+      </div>
+
+      <div id="shuttle-list"></div>
+
+      <div class="card" style="text-align:center;">
+        <div class="text-sm text-secondary">有闲置车辆？成为接驳车车主，帮助更多司机返程。</div>
+        <button class="btn btn-outline mt-12" style="width:100%;">成为接驳车车主</button>
+      </div>
+    </div>
+
+    <!-- 顺风捎带体验入口 -->
+    <div class="card" style="background:linear-gradient(135deg,#fff7e6,#fffbe6);margin-top:20px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="font-size:28px;">🚙</div>
+        <div style="flex:1;">
+          <div style="font-size:15px;font-weight:600;">顺风捎带（系统自动匹配）</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">接顺路单时，顺路带同行司机一程</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:12px;">
+        <button class="btn btn-outline" style="flex:1;" onclick="demoMatch('driverA')">模拟车主视角</button>
+        <button class="btn btn-outline" style="flex:1;" onclick="demoMatch('driverB')">模拟乘客视角</button>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <a href="publish.html" class="btn btn-primary btn-block">发布拼车</a>
+      <a href="#" class="btn btn-outline btn-block" onclick="switchTab('panel-shuttle');return false;">找接驳车</a>
+    </div>
+  </div>
+
+  <!-- 顺风捎带：车主视角弹窗 -->
+  <div class="modal-overlay" id="modal-driverA" data-close-on-click="false">
+    <div class="modal">
+      <div class="modal-icon">🔔</div>
+      <div class="modal-title">捎带同行司机</div>
+      <div class="modal-desc" style="text-align:left;">
+        <p>司机B想搭你的顺风车回家</p>
+        <p style="margin-top:8px;">他的目的地：<strong>天通苑</strong>（在你家附近）</p>
+        <p style="margin-top:8px;">他愿意支付：<strong style="color:var(--danger);">15元</strong></p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-gray" onclick="closeModal('#modal-driverA');showToast('已忽略该请求')">算了</button>
+        <button class="btn btn-primary" onclick="closeModal('#modal-driverA');showToast('已同意，正在通知B司机')">愿意捎带</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 顺风捎带：乘客视角弹窗 -->
+  <div class="modal-overlay" id="modal-driverB" data-close-on-click="false">
+    <div class="modal">
+      <div class="modal-icon">🚗</div>
+      <div class="modal-title">找到顺风车！</div>
+      <div class="modal-desc" style="text-align:left;">
+        <p>司机A刚接到顺路单</p>
+        <p style="margin-top:8px;">终点在你家附近（<strong>天通苑</strong>）</p>
+        <p style="margin-top:8px;">建议费用：<strong style="color:var(--danger);">15元</strong></p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-gray" onclick="closeModal('#modal-driverB');showToast('已关闭推荐')">不感兴趣</button>
+        <button class="btn btn-primary" onclick="closeModal('#modal-driverB');showToast('申请已发送，等待A司机确认')">申请搭车</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    function switchTab(panelId) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelector(`.tab[data-target="#${panelId}"]`)?.classList.add('active');
+      document.getElementById(panelId)?.classList.add('active');
+    }
+
+    function demoMatch(role) {
+      if (role === 'driverA') {
+        openModal('#modal-driverA');
+      } else {
+        openModal('#modal-driverB');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      renderCarpoolList('carpool-list', mockCarpools);
+      renderShuttleList('shuttle-list', mockShuttles);
+    });
+  </script>
+</body>
+</html>

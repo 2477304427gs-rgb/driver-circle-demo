@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>预约成功</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="app-header">
+      <div class="back-btn" onclick="goBack()">←</div>
+      <div class="title">预约成功</div>
+      <div class="header-action"></div>
+    </div>
+
+    <div class="success-page">
+      <div class="success-icon">✅</div>
+      <div class="success-title">预约成功！</div>
+      <div class="success-desc">请提前10分钟到达上车点</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">预约信息</div>
+      <div class="detail-section">
+        <div class="section-title">线路</div>
+        <div class="section-content">望京 → 天通苑</div>
+      </div>
+      <div class="detail-section">
+        <div class="section-title">班次</div>
+        <div class="section-content">00:30</div>
+      </div>
+      <div class="detail-section">
+        <div class="section-title">座位号</div>
+        <div class="section-content">3号座</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">车主信息</div>
+      <div class="profile-small">
+        <div class="avatar avatar-lg">王</div>
+        <div class="info">
+          <div class="name-row">
+            <span style="font-size:17px;font-weight:600;">王车主</span>
+            <span class="text-sm text-secondary">★4.8</span>
+          </div>
+          <div class="sub">联系方式：139****8888（虚拟号码）</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <button class="btn btn-primary btn-block" onclick="showToast('正在拨出虚拟号码')">联系车主</button>
+      <a href="circle.html" class="btn btn-outline btn-block">查看我的预约</a>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

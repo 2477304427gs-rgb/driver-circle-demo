@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>拼车详情</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="app-header">
+      <div class="back-btn" onclick="goBack()">←</div>
+      <div class="title">拼车详情</div>
+      <div class="header-action"></div>
+    </div>
+
+    <div class="card">
+      <div class="profile-small">
+        <div class="avatar avatar-lg" id="publisher-avatar">张</div>
+        <div class="info">
+          <div class="name-row">
+            <span id="publisher-name" style="font-size:17px;font-weight:600;">张师傅</span>
+            <span class="tag tag-primary">已认证</span>
+          </div>
+          <div class="sub">
+            星级 ★<span id="publisher-rating">4.9</span> · 互助信用分 <span id="publisher-credit">92</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="detail-section">
+        <div class="section-title">行程信息</div>
+        <div class="route-line" style="font-size:16px;">
+          <span class="dot start"></span>
+          <span class="addr" id="from-addr">望京SOHO</span>
+        </div>
+        <div class="route-line" style="font-size:16px;">
+          <span class="dot end"></span>
+          <span class="addr" id="to-addr">天通苑</span>
+        </div>
+      </div>
+      <div class="detail-section">
+        <div class="section-title">预计出发时间</div>
+        <div class="section-content">⏰ <span id="depart-time">00:30</span></div>
+      </div>
+      <div class="detail-section">
+        <div class="section-title">车辆情况</div>
+        <div class="section-content" id="car-info">有车，可带2人</div>
+      </div>
+      <div class="detail-section">
+        <div class="section-title">需求描述</div>
+        <div class="section-content text-secondary" id="remark">有车可带2人，后排宽敞</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">响应者（3人已响应）</div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div class="avatar avatar-sm">李</div>
+        <div class="avatar avatar-sm">王</div>
+        <div class="avatar avatar-sm">赵</div>
+        <span class="text-sm text-secondary">+2</span>
+      </div>
+      <a href="responders.html" class="btn btn-outline btn-block" style="margin-top:12px;">查看响应者列表</a>
+    </div>
+
+    <div class="bottom-bar">
+      <button class="btn btn-primary btn-block" id="btn-want" onclick="openModal('#modal-confirm')">我想拼</button>
+    </div>
+  </div>
+
+  <!-- 确认弹窗 -->
+  <div class="modal-overlay" id="modal-confirm" data-close-on-click="false">
+    <div class="modal">
+      <div class="modal-icon">🤝</div>
+      <div class="modal-title">确认发起拼车请求？</div>
+      <div class="modal-desc">
+        发送后，发布者将收到你的响应，你们可以通过App内IM沟通细节。
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-gray" onclick="closeModal('#modal-confirm')">再想想</button>
+        <button class="btn btn-primary" onclick="submitWant()">确认发送</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    const id = getQueryParam('id') || '1';
+    const item = mockCarpools.find(c => String(c.id) === id) || mockCarpools[0];
+
+    document.getElementById('publisher-avatar').textContent = item.initial;
+    document.getElementById('publisher-name').textContent = item.name;
+    document.getElementById('publisher-rating').textContent = item.rating;
+    document.getElementById('publisher-credit').textContent = item.credit;
+    document.getElementById('from-addr').textContent = item.from;
+    document.getElementById('to-addr').textContent = item.to;
+    document.getElementById('depart-time').textContent = item.time;
+    document.getElementById('car-info').textContent = item.hasCar
+      ? `有车，可带${item.seats}人`
+      : '无车，求带';
+    document.getElementById('remark').textContent = item.remark;
+
+    function submitWant() {
+      closeModal('#modal-confirm');
+      const btn = document.getElementById('btn-want');
+      btn.textContent = '已发送请求，等待确认';
+      btn.classList.remove('btn-primary');
+      btn.classList.add('btn-gray');
+      btn.disabled = true;
+      showToast('请求发送成功');
+    }
+  </script>
+</body>
+</html>

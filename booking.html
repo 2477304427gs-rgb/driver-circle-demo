@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>预约接驳车</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="app-header">
+      <div class="back-btn" onclick="goBack()">←</div>
+      <div class="title">预约接驳车</div>
+      <div class="header-action"></div>
+    </div>
+
+    <div class="card">
+      <div class="profile-small">
+        <div class="avatar avatar-lg" id="owner-avatar">王</div>
+        <div class="info">
+          <div class="name-row">
+            <span id="owner-name" style="font-size:17px;font-weight:600;">王车主</span>
+            <span class="text-sm text-secondary">★<span id="owner-rating">4.8</span></span>
+          </div>
+          <div class="sub" id="line-info">望京 → 天通苑 · 剩余3座</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="form-group">
+        <label class="form-label">选择班次</label>
+        <div id="time-options" class="time-tags">
+          <span class="time-tag active" data-price="15">00:30</span>
+          <span class="time-tag" data-price="15">23:30</span>
+          <span class="time-tag" data-price="15">01:00</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">乘客信息</label>
+        <input type="text" class="form-input mb-8" value="张师傅" placeholder="姓名">
+        <input type="tel" class="form-input" value="138****1234" placeholder="手机号">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">费用明细</label>
+        <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px;">
+          <span class="text-secondary">车费</span>
+          <span>¥<span id="price-fare">15</span></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:14px;">
+          <span class="text-secondary">平台服务费</span>
+          <span style="color:var(--success);">初期免服务费</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:600;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+          <span>合计</span>
+          <span style="color:var(--danger);">¥<span id="price-total">15</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-bar">
+      <button class="btn btn-primary btn-block" onclick="confirmBooking()">确认预约并支付</button>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script>
+    const shuttleId = getQueryParam('id') || '1';
+    const shuttle = mockShuttles.find(s => String(s.id) === shuttleId) || mockShuttles[0];
+
+    document.getElementById('owner-avatar').textContent = shuttle.owner.charAt(0);
+    document.getElementById('owner-name').textContent = shuttle.owner;
+    document.getElementById('owner-rating').textContent = shuttle.rating;
+    document.getElementById('line-info').textContent = `${shuttle.line} · 剩余${shuttle.seats}座`;
+
+    const timeContainer = document.getElementById('time-options');
+    timeContainer.innerHTML = shuttle.times.map((t, i) =>
+      `<span class="time-tag ${i === 0 ? 'active' : ''}" data-price="${shuttle.price}">${t}</span>`
+    ).join('');
+
+    document.getElementById('price-fare').textContent = shuttle.price;
+    document.getElementById('price-total').textContent = shuttle.price;
+
+    timeContainer.addEventListener('click', function(e) {
+      if (e.target.classList.contains('time-tag')) {
+        timeContainer.querySelectorAll('.time-tag').forEach(t => t.classList.remove('active'));
+        e.target.classList.add('active');
+      }
+    });
+
+    function confirmBooking() {
+      showToast('正在调起支付...');
+      setTimeout(() => {
+        window.location.href = 'booking-success.html';
+      }, 1200);
+    }
+  </script>
+</body>
+</html>
