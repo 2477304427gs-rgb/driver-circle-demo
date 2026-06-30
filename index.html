@@ -3,63 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>滴滴司机端 - 首页</title>
+  <title>我</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="app-container">
-    <div class="home-header">
-      <div class="avatar avatar-sm">司</div>
-      <div class="status">
-        <div class="status-label">今日状态</div>
-        <div class="status-value">在线接单中 · 望京</div>
+  <div class="app-container" style="padding-bottom:20px;">
+    <div class="app-header">
+      <div class="back-btn" onclick="goBack()">←</div>
+      <div class="title">我</div>
+      <div style="display:flex;gap:16px;">
+        <div class="header-action">⚙️</div>
+        <div class="header-action">☰</div>
       </div>
-      <div class="header-action">🔔</div>
     </div>
 
+    <!-- 个人信息卡 -->
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="avatar avatar-lg" style="background:#d9d9d9;color:#666;">苟</div>
+        <div style="flex:1;">
+          <div class="name-row">
+            <span>苟胜新</span>
+            <span>🏅🏅🎖️</span>
+          </div>
+          <div class="stats-row">
+            <span>积分：190</span>
+            <span>荣誉：20</span>
+            <span>代驾分：12</span>
+          </div>
+        </div>
+      </div>
+      <div class="level-row">
+        <div class="level-badge">
+          <span class="level-text">钻石司机</span>
+          <span class="level-tag">不可升至钻石</span>
+        </div>
+        <div class="growth-link">成长中心 →</div>
+      </div>
+    </div>
+
+    <!-- 附近司机圈入口 -->
+    <a href="circle.html" class="card highlight-card" style="display:flex;align-items:center;gap:12px;">
+      <div style="font-size:32px;">🚗</div>
+      <div style="flex:1;">
+        <div style="font-size:16px;font-weight:600;">附近司机圈</div>
+        <div style="font-size:13px;color:var(--text-secondary);margin-top:4px;">拼车返程、顺风捎带、找接驳车</div>
+      </div>
+      <div class="arrow" style="color:var(--text-tertiary);">→</div>
+    </a>
+
+    <!-- 钱包/订单摘要 -->
+    <div class="summary-cards">
+      <div class="summary-card">
+        <div class="icon wallet">💰</div>
+        <div class="info">
+          <div class="label">钱包</div>
+          <div class="value">可提现552元</div>
+        </div>
+      </div>
+      <div class="summary-card">
+        <div class="icon order">📋</div>
+        <div class="info">
+          <div class="label">订单</div>
+          <div class="value">总计80单</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 功能网格 -->
     <div class="feature-grid">
-      <a href="circle.html" class="feature-item">
-        <div class="feature-icon circle">🚗</div>
-        <span class="feature-name">附近司机圈</span>
-      </a>
       <div class="feature-item">
-        <div class="feature-icon shunlu">🏠</div>
-        <span class="feature-name">顺路单</span>
+        <div class="feature-icon" style="background:#fff2e8;">📝</div>
+        <span class="feature-name">客人评价</span>
       </div>
       <div class="feature-item">
-        <div class="feature-icon order">📋</div>
-        <span class="feature-name">我的订单</span>
+        <div class="feature-icon" style="background:#f6ffed;">📋</div>
+        <span class="feature-name">我的任务</span>
       </div>
       <div class="feature-item">
-        <div class="feature-icon wallet">💰</div>
-        <span class="feature-name">钱包</span>
+        <div class="feature-icon" style="background:#e6f4ff;">🎁</div>
+        <span class="feature-name">活动中心</span>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:#f9f0ff;">🛒</div>
+        <span class="feature-name">积分商城</span>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:#fff7e6;">📊</div>
+        <span class="feature-name">本月排名</span>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:#fff2f0;">📄</div>
+        <span class="feature-name">我的考核</span>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:#f6ffed;">🎧</div>
+        <span class="feature-name">在线客服</span>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon" style="background:#e6f4ff;">📚</div>
+        <span class="feature-name">滴滴课堂</span>
       </div>
     </div>
 
-    <div class="card" style="margin-top:12px;">
-      <div class="card-title">今日数据</div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);text-align:center;">
-        <div>
-          <div style="font-size:20px;font-weight:600;color:var(--primary);">5</div>
-          <div style="font-size:12px;color:var(--text-secondary);">完成单量</div>
+    <!-- 菜单列表 -->
+    <div class="menu-list">
+      <div class="menu-item">
+        <div class="left">
+          <span class="label">业务规范</span>
         </div>
-        <div>
-          <div style="font-size:20px;font-weight:600;color:var(--primary);">¥386</div>
-          <div style="font-size:12px;color:var(--text-secondary);">今日流水</div>
-        </div>
-        <div>
-          <div style="font-size:20px;font-weight:600;color:var(--primary);">28km</div>
-          <div style="font-size:12px;color:var(--text-secondary);">服务里程</div>
-        </div>
+        <span class="arrow">></span>
       </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">🌙 夜间返程助手</div>
-      <div class="card-desc">
-        远途单返程难？试试司机互助圈，拼车回家更安全、更省钱。
+      <div class="menu-item">
+        <div class="left">
+          <span class="label">反馈建议</span>
+        </div>
+        <span class="arrow">></span>
       </div>
-      <a href="circle.html" class="btn btn-primary" style="margin-top:12px;">进入互助圈</a>
+      <div class="menu-item">
+        <div class="left">
+          <span class="label">推荐司机</span>
+        </div>
+        <span class="arrow">></span>
+      </div>
     </div>
   </div>
 

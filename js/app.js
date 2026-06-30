@@ -49,7 +49,7 @@ const mockCarpools = [
     tagType: 'success',
     hasCar: true,
     seats: 2,
-    remark: '有车可带2人，后排宽敞',
+    remark: '有车可带2人，后排宽敞，电动车可放后备箱',
     verified: true
   },
   {
@@ -102,6 +102,40 @@ const mockCarpools = [
     seats: 0,
     remark: '电动车快没电了，求捎带',
     verified: false
+  },
+  {
+    id: 5,
+    name: '陈师傅',
+    initial: '陈',
+    rating: 4.9,
+    credit: 94,
+    distance: '0.8km',
+    from: '望京SOHO',
+    to: '回龙观',
+    time: '00:20',
+    tag: '有车可带3人',
+    tagType: 'success',
+    hasCar: true,
+    seats: 3,
+    remark: '商务车空间大，可带多人',
+    verified: true
+  },
+  {
+    id: 6,
+    name: '刘师傅',
+    initial: '刘',
+    rating: 4.5,
+    credit: 78,
+    distance: '5.0km',
+    from: '东直门',
+    to: '天通苑',
+    time: '01:30',
+    tag: '求带，愿分摊车费',
+    tagType: 'warning',
+    hasCar: false,
+    seats: 0,
+    remark: '顺路单没匹配到，求顺路车',
+    verified: true
   }
 ];
 
@@ -114,7 +148,8 @@ const mockShuttles = [
     seats: 3,
     price: 15,
     owner: '王车主',
-    rating: 4.8
+    rating: 4.8,
+    vehicle: '五菱宏光 7座'
   },
   {
     id: 2,
@@ -123,7 +158,8 @@ const mockShuttles = [
     seats: 2,
     price: 12,
     owner: '刘车主',
-    rating: 4.9
+    rating: 4.9,
+    vehicle: '比亚迪宋 5座'
   },
   {
     id: 3,
@@ -132,7 +168,65 @@ const mockShuttles = [
     seats: 4,
     price: 18,
     owner: '陈车主',
-    rating: 4.7
+    rating: 4.7,
+    vehicle: '别克GL8 7座'
+  },
+  {
+    id: 4,
+    line: '中关村 → 西二旗',
+    times: ['00:15', '01:00'],
+    seats: 5,
+    price: 10,
+    owner: '杨车主',
+    rating: 4.8,
+    vehicle: '大众帕萨特 5座'
+  },
+  {
+    id: 5,
+    line: '东直门 → 天通苑',
+    times: ['23:40', '00:30', '01:10'],
+    seats: 1,
+    price: 16,
+    owner: '周车主',
+    rating: 4.6,
+    vehicle: '丰田凯美瑞 5座'
+  }
+];
+
+// 模拟顺风捎带数据
+const mockRideshare = [
+  {
+    id: 1,
+    driverA: '张师傅',
+    driverAInitial: '张',
+    destination: '天通苑',
+    endPoint: '望京SOHO附近',
+    price: 15,
+    distance: '距你2.3km',
+    status: '可捎带1人',
+    time: '00:30 到达'
+  },
+  {
+    id: 2,
+    driverA: '王师傅',
+    driverAInitial: '王',
+    destination: '回龙观',
+    endPoint: '三里屯附近',
+    price: 18,
+    distance: '距你3.5km',
+    status: '可捎带2人',
+    time: '00:45 到达'
+  },
+  {
+    id: 3,
+    driverA: '李师傅',
+    driverAInitial: '李',
+    destination: '通州北苑',
+    endPoint: '国贸附近',
+    price: 12,
+    distance: '距你1.8km',
+    status: '可捎带1人',
+    time: '01:00 到达'
   }
 ];
 
@@ -188,8 +282,45 @@ function renderShuttleList(containerId, list) {
       <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
         <div class="text-sm text-secondary">
           剩余${item.seats}座 · ${item.owner} ★${item.rating}
+          ${item.vehicle ? `· ${item.vehicle}` : ''}
         </div>
         <button class="btn btn-primary btn-sm" onclick="goToBooking(${item.id})">预约</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// 渲染顺风捎带列表
+function renderRideshareList(containerId, list) {
+  const container = $(containerId);
+  if (!container) return;
+  container.innerHTML = list.map(item => `
+    <div class="card rideshare-card" data-id="${item.id}">
+      <div class="list-item">
+        <div class="avatar">${item.driverAInitial}</div>
+        <div class="content">
+          <div class="name-row" style="display:flex;align-items:center;gap:8px;">
+            <span class="name">${item.driverA} 的顺路单</span>
+            <span class="tag tag-primary">顺风捎带</span>
+          </div>
+          <div class="meta">${item.distance} · ${item.status}</div>
+        </div>
+        <div class="action">
+          <button class="btn btn-primary btn-sm" onclick="demoMatch('driverB')">申请搭车</button>
+        </div>
+      </div>
+      <div class="route-line">
+        <span class="dot start"></span>
+        <span class="addr">${item.endPoint}</span>
+        <span class="arrow">→</span>
+        <span class="dot end"></span>
+        <span class="addr">${item.destination}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <span class="text-sm text-secondary">⏰ ${item.time}</span>
+          <span class="text-sm" style="margin-left:12px;color:var(--danger);font-weight:600;">建议费用：${item.price}元</span>
+        </div>
       </div>
     </div>
   `).join('');

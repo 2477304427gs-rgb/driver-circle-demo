@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="app-container">
+  <div class="app-container" style="padding-bottom:20px;">
     <div class="app-header">
       <div class="back-btn" onclick="goBack()">←</div>
       <div class="title">互助圈</div>
@@ -19,6 +19,7 @@
 
     <div class="tab-bar">
       <div class="tab active" data-target="#panel-carpool">附近拼车</div>
+      <div class="tab" data-target="#panel-rideshare">顺风捎带</div>
       <div class="tab" data-target="#panel-shuttle">找接驳车</div>
     </div>
 
@@ -38,7 +39,33 @@
         </div>
       </div>
 
+      <div style="margin:0 16px 8px;">
+        <span style="font-size:14px;font-weight:600;">附近拼车需求（6条）</span>
+      </div>
       <div id="carpool-list"></div>
+    </div>
+
+    <!-- 顺风捎带 Tab -->
+    <div id="panel-rideshare" class="tab-panel scroll-list">
+      <div class="card" style="background:linear-gradient(135deg,#fff7e6,#fffbe6);">
+        <div class="card-title">顺风捎带 · 自动匹配</div>
+        <div class="card-desc">
+          当同行司机接到顺路单，系统会自动把顺路的你捎上。车主车上本来就有空位，不产生额外成本。
+        </div>
+      </div>
+
+      <div style="margin:0 16px 8px;">
+        <span style="font-size:14px;font-weight:600;">当前可匹配的顺风车（3条）</span>
+      </div>
+      <div id="rideshare-list"></div>
+
+      <div class="card" style="text-align:center;">
+        <div class="text-sm text-secondary">想体验系统自动匹配的弹窗流程？点击下方按钮模拟。</div>
+        <div style="display:flex;gap:10px;margin-top:12px;">
+          <button class="btn btn-outline" style="flex:1;" onclick="demoMatch('driverA')">模拟车主视角</button>
+          <button class="btn btn-outline" style="flex:1;" onclick="demoMatch('driverB')">模拟乘客视角</button>
+        </div>
+      </div>
     </div>
 
     <!-- 找接驳车 Tab -->
@@ -51,32 +78,15 @@
         </div>
       </div>
 
+      <div style="margin:0 16px 8px;">
+        <span style="font-size:14px;font-weight:600;">推荐线路（5条）</span>
+      </div>
       <div id="shuttle-list"></div>
 
       <div class="card" style="text-align:center;">
         <div class="text-sm text-secondary">有闲置车辆？成为接驳车车主，帮助更多司机返程。</div>
         <button class="btn btn-outline mt-12" style="width:100%;">成为接驳车车主</button>
       </div>
-    </div>
-
-    <!-- 顺风捎带体验入口 -->
-    <div class="card" style="background:linear-gradient(135deg,#fff7e6,#fffbe6);margin-top:20px;">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <div style="font-size:28px;">🚙</div>
-        <div style="flex:1;">
-          <div style="font-size:15px;font-weight:600;">顺风捎带（系统自动匹配）</div>
-          <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">接顺路单时，顺路带同行司机一程</div>
-        </div>
-      </div>
-      <div style="display:flex;gap:10px;margin-top:12px;">
-        <button class="btn btn-outline" style="flex:1;" onclick="demoMatch('driverA')">模拟车主视角</button>
-        <button class="btn btn-outline" style="flex:1;" onclick="demoMatch('driverB')">模拟乘客视角</button>
-      </div>
-    </div>
-
-    <div class="bottom-bar">
-      <a href="publish.html" class="btn btn-primary btn-block">发布拼车</a>
-      <a href="#" class="btn btn-outline btn-block" onclick="switchTab('panel-shuttle');return false;">找接驳车</a>
     </div>
   </div>
 
@@ -133,6 +143,7 @@
 
     document.addEventListener('DOMContentLoaded', function() {
       renderCarpoolList('carpool-list', mockCarpools);
+      renderRideshareList('rideshare-list', mockRideshare);
       renderShuttleList('shuttle-list', mockShuttles);
     });
   </script>
